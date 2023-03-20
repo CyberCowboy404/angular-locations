@@ -10,7 +10,7 @@
 is shared with you.
 - Upon clicking on a marker:
 - - The name of the location will appear on a tooltip above marker
-- A side panel will appear on the left of the same page, containing details for the
+- - A side panel will appear on the left of the same page, containing details for the
 location, and the map will resize so both the side panel and the map fit the page.
 #### Second Route:
 - The second route will contain a table that will display all the data from the given data set with pagination.
