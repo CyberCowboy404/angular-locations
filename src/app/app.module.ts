@@ -7,6 +7,10 @@ import { MapComponent } from './map/map.component';
 import { LocationTableComponent } from './location-table/location-table.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HeaderComponent } from './header/header.component';
+import { NavigationComponent } from './header/navigation/navigation.component';
+import { TranslateDropdownComponent } from './header/translate-dropdown/translate-dropdown.component';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslocoRootModule } from './transloco-root.module';
 
 @NgModule({
   declarations: [
@@ -14,13 +18,18 @@ import { HeaderComponent } from './header/header.component';
     MapComponent,
     LocationTableComponent,
     PageNotFoundComponent,
-    HeaderComponent
+    HeaderComponent,
+    NavigationComponent,
+    TranslateDropdownComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    TranslocoRootModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
