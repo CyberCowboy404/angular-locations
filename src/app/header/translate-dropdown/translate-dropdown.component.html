@@ -1,1 +1,5 @@
-<p>translate-dropdown works!</p>
+<mat-select [(value)]="selected" (selectionChange)="changeLanguage($event)">
+    <mat-option *ngFor="let language of languages" [value]="language">
+        {{language.viewValue}}
+    </mat-option>
+</mat-select>

@@ -11,6 +11,15 @@ import { NavigationComponent } from './header/navigation/navigation.component';
 import { TranslateDropdownComponent } from './header/translate-dropdown/translate-dropdown.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// Material modules
+import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
+
 
 @NgModule({
   declarations: [
@@ -26,7 +35,14 @@ import { TranslocoRootModule } from './transloco-root.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    TranslocoRootModule
+    TranslocoRootModule,
+    BrowserAnimationsModule,
+    // Material modules
+    MatToolbarModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSidenavModule
   ],
   providers: [
   ],
