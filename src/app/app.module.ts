@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
-import { LocationTableComponent } from './location-table/location-table.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HeaderComponent } from './header/header.component';
 import { NavigationComponent } from './header/navigation/navigation.component';
@@ -18,18 +17,26 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { LocationTableComponent } from './location-table/location-table.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { SidenavComponent } from './map/sidenav/sidenav.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    LocationTableComponent,
     PageNotFoundComponent,
     HeaderComponent,
     NavigationComponent,
-    TranslateDropdownComponent
+    TranslateDropdownComponent,
+    LocationTableComponent,
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +49,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatSelectModule,
     MatToolbarModule,
     MatIconModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    LayoutModule,
+    MatButtonModule,
+    MatListModule
   ],
   providers: [
   ],

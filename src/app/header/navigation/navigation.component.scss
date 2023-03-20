@@ -1,5 +1,30 @@
 .spacer {
-    /* This fills the remaining space, by using flexbox. 
-       Every toolbar row uses a flexbox row layout. */
     flex: 1 1 auto;
-  }
+}
+
+.logo {
+    width: 150px;
+    margin: 10px 20px 0 25px;
+    &__link {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.nav-link {
+    margin: 0 25px;
+    color: #fff; 
+    transition: all .3s ease;
+    span {
+        padding: 7px 15px;
+        border-radius: 5px;
+    }
+    &.active {
+        span {
+            background: rgba(255,255,255,.15);
+        }
+    }
+    &:hover {
+        opacity: .7;
+    }
+}
