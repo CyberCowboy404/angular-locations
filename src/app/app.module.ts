@@ -8,10 +8,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HeaderComponent } from './header/header.component';
 import { NavigationComponent } from './header/navigation/navigation.component';
 import { TranslateDropdownComponent } from './header/translate-dropdown/translate-dropdown.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 // Material modules
 import { MatSelectModule } from '@angular/material/select';
@@ -25,7 +26,6 @@ import { LocationTableComponent } from './location-table/location-table.componen
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
-import { SidenavComponent } from './map/sidenav/sidenav.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -39,7 +39,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     NavigationComponent,
     TranslateDropdownComponent,
     LocationTableComponent,
-    SidenavComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +48,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    GoogleMapsModule,
+    HttpClientJsonpModule,
     // Material modules
     MatToolbarModule,
     MatSelectModule,
