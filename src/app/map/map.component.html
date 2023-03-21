@@ -21,10 +21,13 @@
                     #marker="mapMarker"
                     *ngFor="let location of locations" 
                     [position]="{'lat': location.coordinates[0], 'lng': location.coordinates[1]}"
-                    (mapClick)="openInfoWindow(marker)"
+                    (mapClick)="openInfoWindow(marker, location)"
                 >
                 </map-marker>
-                <map-info-window>Info Window content</map-info-window>
+                <map-info-window>
+                    <h3>{{currentLocation?.name}}</h3>
+                    <p>{{currentLocation?.coordinates?.join(", ")}}</p>
+                </map-info-window>
             </google-map>
         </div>
     </mat-sidenav-content>

@@ -23,6 +23,7 @@ export class MapComponent {
   center!: google.maps.LatLngLiteral;
   zoom = 10;
   isHandset$: Observable<boolean>;
+  currentLocation!: LocationItem;
 
   constructor(
     private httpClient: HttpClient,
@@ -43,16 +44,16 @@ export class MapComponent {
       );
   }
 
-  openInfoWindow(marker: MapMarker) {
+  openInfoWindow(marker: MapMarker, location: LocationItem) {
     this.infoWindow.open(marker);
+    this.currentLocation = location;
   }
 
   ngOnInit(): void {
     this.locationService.getLocations().subscribe((locations) => {
-      this.locations = locations;
       const [lat, lng] = locations[0].coordinates;
+      this.locations = locations;
       this.center = { lat, lng }
-      console.log("🚀 ~ file: map.component.ts:48 ~ MapComponent ~ this.locationService.getLocations ~ this.center:", this.center)
     });
   }
 
