@@ -1,5 +1,5 @@
 <nav>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" *transloco="let t;">
         <button *ngIf="checkMapRoute()" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSidenav()">
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
@@ -9,11 +9,11 @@
         </a>
 
         <a routerLink="map" routerLinkActive="active" class="nav-link">
-            <span>Map</span>
+            <span>{{t('map')}}</span>
         </a>
 
         <a routerLink="location" routerLinkActive="active" class="nav-link">
-            <span>Edit locations</span>
+            <span>{{t('locations')}}</span>
         </a>
         <span class="spacer"></span>
         <app-translate-dropdown></app-translate-dropdown>

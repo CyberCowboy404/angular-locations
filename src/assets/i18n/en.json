@@ -1,3 +1,7 @@
 {
-    "Hello": "HEllo"
+    "map": "Map",
+    "locations": "Locations",
+    "name": "Name",
+    "cords": "Coordinates",
+    "actions": "Actions"
 }
