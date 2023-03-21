@@ -1,3 +1,25 @@
+.location-table {
+  max-width: 800px;
+  margin: 40px auto 0;
+
+  // Rewrite ng material form fields input styles
+  .not_editable {
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__trailing {
+      border: 0 !important;
+    }
+
+    .mdc-text-field {
+      background: transparent !important;
+    }
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }
+}
+
 .full-width-table {
   width: 100%;
 }

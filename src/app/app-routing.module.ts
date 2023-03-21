@@ -12,7 +12,7 @@ const routes: Routes = [
     redirectTo: '/map',
     pathMatch: 'full'
   },
-  {  path: '**', component: PageNotFoundComponent}
+  { path: '**', component: PageNotFoundComponent }
 
 ];
 

@@ -1,25 +1,68 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { LocationTableDataSource, LocationTableItem } from './location-table-datasource';
 
+import locationsJSON from '../../locations.json';
+
 @Component({
   selector: 'app-location-table',
   templateUrl: './location-table.component.html',
-  styleUrls: ['./location-table.component.scss']
+  styleUrls: ['./location-table.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LocationTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<LocationTableItem>;
-  dataSource: LocationTableDataSource;
+  dataSource!: LocationTableDataSource;
+  // Location Form - LF
+  LF!: FormGroup;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['name', 'coordinates', 'actions'];
 
-  constructor() {
-    this.dataSource = new LocationTableDataSource();
+  constructor(
+    private fb: FormBuilder,
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.LF = new FormGroup({
+      rows: new FormArray(locationsJSON.map(val => new FormGroup({
+        name: new FormControl(val.name),
+        coordinates: new FormControl(val.coordinates.join(', ')),
+        action: new FormControl('existingRecord'),
+        isEditable: new FormControl(true),
+        isNewRow: new FormControl(false),
+      })
+      ))
+    });
+    const formDataSource = (this.LF.get('rows') as FormArray)?.controls;
+    this.dataSource = new LocationTableDataSource(formDataSource);
+  }
+
+  save(index: string) {
+    this.getControl(index).get('isEditable').patchValue(true);
+  }
+
+  edit(index: string) {
+    this.getControl(index).get('isEditable').patchValue(false);
+  }
+
+  cancel(index: string) {
+    this.getControl(index).get('isEditable').patchValue(true);
+  }
+
+
+  delete(index: string) {
+
+  }
+
+  getControl(index: string) {
+    return (this.LF.get('rows') as any)?.at(index);
   }
 
   ngAfterViewInit(): void {

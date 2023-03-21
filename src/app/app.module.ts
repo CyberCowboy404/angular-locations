@@ -11,6 +11,7 @@ import { TranslateDropdownComponent } from './header/translate-dropdown/translat
 import { HttpClientModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Material modules
 import { MatSelectModule } from '@angular/material/select';
@@ -25,6 +26,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { SidenavComponent } from './map/sidenav/sidenav.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -44,6 +47,8 @@ import { SidenavComponent } from './map/sidenav/sidenav.component';
     HttpClientModule,
     TranslocoRootModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     // Material modules
     MatToolbarModule,
     MatSelectModule,
@@ -55,7 +60,9 @@ import { SidenavComponent } from './map/sidenav/sidenav.component';
     MatSortModule,
     LayoutModule,
     MatButtonModule,
-    MatListModule
+    MatListModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   providers: [
   ],
