@@ -3,9 +3,8 @@ import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { LocationsService } from '../core/locations.service';
 import { LocationTableDataSource, LocationTableItem } from './location-table-datasource';
-
-import locationsJSON from '../../locations.json';
 
 @Component({
   selector: 'app-location-table',
@@ -26,22 +25,25 @@ export class LocationTableComponent implements AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
+    private locationService: LocationsService
   ) {
   }
 
   ngOnInit(): void {
-    this.LF = new FormGroup({
-      rows: new FormArray(locationsJSON.map(val => new FormGroup({
-        name: new FormControl(val.name),
-        coordinates: new FormControl(val.coordinates.join(', ')),
-        action: new FormControl('existingRecord'),
-        isEditable: new FormControl(true),
-        isNewRow: new FormControl(false),
-      })
-      ))
+    this.locationService.getLocations().subscribe((locations) => {
+      this.LF = new FormGroup({
+        rows: new FormArray(locations.map(val => new FormGroup({
+          name: new FormControl(val.name),
+          coordinates: new FormControl(val.coordinates.join(', ')),
+          action: new FormControl('existingRecord'),
+          isEditable: new FormControl(true),
+          isNewRow: new FormControl(false),
+        })
+        ))
+      });
+      const formDataSource = (this.LF.get('rows') as FormArray)?.controls;
+      this.dataSource = new LocationTableDataSource(formDataSource);
     });
-    const formDataSource = (this.LF.get('rows') as FormArray)?.controls;
-    this.dataSource = new LocationTableDataSource(formDataSource);
   }
 
   save(index: string) {

@@ -1,0 +1,1 @@
+export type LocationItem = { coordinates: number[]; name: string; }
