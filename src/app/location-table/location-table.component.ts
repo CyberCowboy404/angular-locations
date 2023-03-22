@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
@@ -37,8 +37,8 @@ export class LocationTableComponent implements AfterViewInit {
       this.LF = this.fb.group({
         rows: this.fb.array(locations.map(val => new FormGroup({
           id: new FormControl(val.id),
-          name: new FormControl(val.name),
-          coordinates: new FormControl(val.coordinates.join(', ')),
+          name: new FormControl(val.name, [Validators.required]),
+          coordinates: new FormControl(val.coordinates.join(', '), [Validators.required]),
           isEditable: new FormControl(true),
           isNewRow: new FormControl(false),
         })
@@ -52,8 +52,8 @@ export class LocationTableComponent implements AfterViewInit {
   addItem() {
     const formItem = this.fb.group({
       id: uniqid(),
-      name: new FormControl(),
-      coordinates: new FormControl(),
+      name: new FormControl([Validators.required]),
+      coordinates: new FormControl([Validators.required]),
       isEditable: new FormControl(false),
       isNewRow: new FormControl(true),
     });
@@ -63,15 +63,17 @@ export class LocationTableComponent implements AfterViewInit {
   }
 
   save(index: string) {
-    this.getControl(index).get('isEditable').patchValue(true);
+    if (this.validateInputs(this.getControl(index))) {
+      this.getControl(index).get('isEditable').patchValue(true);
 
-    let { id, name, coordinates, isNewRow } = this.getControl(index).value;
-    coordinates = this.cordStrToArr(coordinates);
+      let { id, name, coordinates, isNewRow } = this.getControl(index).value;
+      coordinates = this.cordStrToArr(coordinates);
 
-    if (isNewRow) {
-      this.locationService.insertData({ id, name, coordinates });
-    } else {
-      this.locationService.patchData({ id, name, coordinates });
+      if (isNewRow) {
+        this.locationService.insertData({ id, name, coordinates });
+      } else {
+        this.locationService.patchData({ id, name, coordinates });
+      }
     }
   }
 
@@ -113,5 +115,23 @@ export class LocationTableComponent implements AfterViewInit {
 
   private cordStrToArr(cordsStr: string) {
     return cordsStr.split(',').map((val: string) => Number(val));
+  }
+
+  private validateInputs(control: FormControl) {
+    const { name, coordinates } = control.value;
+    const checkCords = coordinates.split(',').length;
+    let checkCordsNaN = true;
+    coordinates.split(',').forEach((val: string) => {
+      if (isNaN(Number(val))) {
+        alert('Cords are in wrong format');
+        checkCordsNaN = false;
+      }
+    });
+
+    if (name && coordinates && checkCords === 2 && checkCordsNaN) {
+      return true;
+    }
+
+    return false;
   }
 }
