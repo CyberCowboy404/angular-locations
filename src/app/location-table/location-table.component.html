@@ -1,4 +1,7 @@
 <div class="location-table mat-elevation-z8">
+  <button mat-raised-button color="primary" class="add-button" (click)="addItem()">
+    <mat-icon>add</mat-icon>
+  </button>
   <form [formGroup]="LF" autocomplete="off">
     <ng-container formArrayName="rows">
       <table mat-table matSort aria-label="Elements">
@@ -52,7 +55,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
-      <mat-paginator #paginator [length]="dataSource?.data?.length" [pageIndex]="0" [pageSize]="50"
+      <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="50"
         [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
       </mat-paginator>
     </ng-container>

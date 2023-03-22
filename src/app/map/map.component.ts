@@ -15,7 +15,7 @@ import { MapInfoWindow, MapMarker } from '@angular/google-maps';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent {
-  apiLoaded: Observable<boolean>;
+  apiLoaded!: Observable<boolean>;
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
   @ViewChild('drawer')
   drawer!: MatSidenav;
@@ -23,20 +23,16 @@ export class MapComponent {
   center!: google.maps.LatLngLiteral;
   zoom = 10;
   isHandset$: Observable<boolean>;
-  currentLocation!: LocationItem;
+  currentLocation: LocationItem = { id: '', name: '', coordinates: [0, 0] };
 
   constructor(
-    private httpClient: HttpClient,
     private breakpointObserver: BreakpointObserver,
     private applicationService: ApplicationCommonService,
     private locationService: LocationsService
   ) {
-    const api_key = 'AIzaSyDiJoDX-E_rWftsep3dqtEDZBWjPxo7CwE'
-    this.apiLoaded = httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${api_key}`, 'callback')
-      .pipe(
-        map(() => true),
-        catchError(() => of(false)),
-      );
+    this.locationService.loadGoogleMapApi();
+    this.apiLoaded = this.locationService.apiLoaded.asObservable();
+
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset)
       .pipe(
         map(result => result.matches),
@@ -61,5 +57,9 @@ export class MapComponent {
     this.applicationService.sidenavOpened.subscribe(() => {
       this.drawer.toggle();
     });
+  }
+
+  ngOnDestroy(): void {
+
   }
 }

@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-sidenav #drawer class="sidenav" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false">
         <mat-card class="location-item" *ngFor="let location of locations">
             <mat-card-content>
                 <h3>{{location.name}}</h3>
@@ -12,21 +12,14 @@
 
         <!-- Add Content Here -->
         <div *ngIf="apiLoaded | async">
-            <google-map 
-                width="100%" height="100vh"
-                [center]="center"
-                [zoom]="zoom"
-            >
-                <map-marker 
-                    #marker="mapMarker"
-                    *ngFor="let location of locations" 
+            <google-map width="100%" height="100vh" [center]="center" [zoom]="zoom">
+                <map-marker #marker="mapMarker" *ngFor="let location of locations"
                     [position]="{'lat': location.coordinates[0], 'lng': location.coordinates[1]}"
-                    (mapClick)="openInfoWindow(marker, location)"
-                >
+                    (mapClick)="openInfoWindow(marker, location)">
                 </map-marker>
                 <map-info-window>
-                    <h3>{{currentLocation?.name}}</h3>
-                    <p>{{currentLocation?.coordinates?.join(", ")}}</p>
+                    <h3>{{currentLocation.name}}</h3>
+                    <p>{{currentLocation.coordinates.join(", ")}}</p>
                 </map-info-window>
             </google-map>
         </div>

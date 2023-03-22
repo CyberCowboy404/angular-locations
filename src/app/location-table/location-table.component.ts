@@ -5,6 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { LocationsService } from '../core/locations.service';
 import { LocationTableDataSource, LocationTableItem } from './location-table-datasource';
+import uniqid from 'uniqid';
+import { LocationItem } from '../types/IApplicationTypes';
 
 @Component({
   selector: 'app-location-table',
@@ -22,6 +24,7 @@ export class LocationTableComponent implements AfterViewInit {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['name', 'coordinates', 'actions'];
+  formState!: LocationItem[];
 
   constructor(
     private fb: FormBuilder,
@@ -31,45 +34,84 @@ export class LocationTableComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.locationService.getLocations().subscribe((locations) => {
-      this.LF = new FormGroup({
-        rows: new FormArray(locations.map(val => new FormGroup({
+      this.LF = this.fb.group({
+        rows: this.fb.array(locations.map(val => new FormGroup({
+          id: new FormControl(val.id),
           name: new FormControl(val.name),
           coordinates: new FormControl(val.coordinates.join(', ')),
-          action: new FormControl('existingRecord'),
           isEditable: new FormControl(true),
           isNewRow: new FormControl(false),
         })
         ))
-      });
+      })
       const formDataSource = (this.LF.get('rows') as FormArray)?.controls;
       this.dataSource = new LocationTableDataSource(formDataSource);
     });
   }
 
+  addItem() {
+    const formItem = this.fb.group({
+      id: uniqid(),
+      name: new FormControl(),
+      coordinates: new FormControl(),
+      isEditable: new FormControl(false),
+      isNewRow: new FormControl(true),
+    });
+    this.form.insert(0, formItem);
+    this.dataSource = new LocationTableDataSource(this.form.controls);
+    this.ngAfterViewInit();
+  }
+
   save(index: string) {
     this.getControl(index).get('isEditable').patchValue(true);
+
+    let { id, name, coordinates, isNewRow } = this.getControl(index).value;
+    coordinates = this.cordStrToArr(coordinates);
+
+    if (isNewRow) {
+      this.locationService.insertData({ id, name, coordinates });
+    } else {
+      this.locationService.patchData({ id, name, coordinates });
+    }
   }
 
   edit(index: string) {
+    this.disableEdit();
     this.getControl(index).get('isEditable').patchValue(false);
   }
 
   cancel(index: string) {
     this.getControl(index).get('isEditable').patchValue(true);
+    const { name, coordinates } = this.locationService.getLocationByIndex(+index)
+    this.getControl(index).get('name').patchValue(name);
+    this.getControl(index).get('coordinates').patchValue(coordinates.join(', '));
   }
 
-
   delete(index: string) {
-
+    const { id } = this.getControl(index).value;
+    this.locationService.deleteData(id);
+    this.ngAfterViewInit();
   }
 
   getControl(index: string) {
     return (this.LF.get('rows') as any)?.at(index);
   }
 
+  disableEdit() {
+    this.form.controls.forEach((c) => c.get('isEditable')?.patchValue(true));
+  }
+
+  get form() {
+    return this.LF.get('rows') as FormArray;
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+  }
+
+  private cordStrToArr(cordsStr: string) {
+    return cordsStr.split(',').map((val: string) => Number(val));
   }
 }

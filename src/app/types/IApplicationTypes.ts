@@ -1,1 +1,1 @@
-export type LocationItem = { coordinates: number[]; name: string; }
+export type LocationItem = { id: string, coordinates: number[]; name: string; }
