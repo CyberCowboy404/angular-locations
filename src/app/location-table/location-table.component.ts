@@ -52,8 +52,8 @@ export class LocationTableComponent implements AfterViewInit {
   addItem() {
     const formItem = this.fb.group({
       id: uniqid(),
-      name: new FormControl([Validators.required]),
-      coordinates: new FormControl([Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      coordinates: new FormControl('', [Validators.required]),
       isEditable: new FormControl(false),
       isNewRow: new FormControl(true),
     });
