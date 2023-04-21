@@ -19,7 +19,7 @@ export class LocationsService {
 
   loadGoogleMapApi() {
     if (!this.apiLoaded.getValue()) {
-      const api_key = 'AIzaSyDiJoDX-E_rWftsep3dqtEDZBWjPxo7CwE';
+      const api_key = '';
 
       this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${api_key}`, 'callback').subscribe(() => {
         this.apiLoaded.next(true);
